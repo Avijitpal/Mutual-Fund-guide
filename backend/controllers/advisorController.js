@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require("@google/genai");
 const Fund = require("../models/Fund");
-
+//Test
 // Initialize the Google Gen AI SDK
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 

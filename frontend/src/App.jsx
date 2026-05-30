@@ -10,9 +10,6 @@ import AiAdvisor from './pages/AiAdvisor';
 import SipCalculator from './pages/SipCalculator';
 import TopPerformers from './pages/TopPerformers';
 // Placeholder layouts for the pages we will build over the next few days
-const HomePlaceholder = () => <div className="p-8 text-center text-gray-500">Explore Dashboard Layout Coming Tomorrow!</div>;
-const LoginPlaceholder = () => <div className="p-8 text-center text-gray-500">Login Form View Placeholder</div>;
-const RegisterPlaceholder = () => <div className="p-8 text-center text-gray-500">Register Form View Placeholder</div>;
 
 function App() {
   return (

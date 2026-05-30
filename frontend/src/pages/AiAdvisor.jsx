@@ -24,7 +24,7 @@ export default function AiAdvisor() {
       setResult(response.data);
     } catch (err) {
       console.error("AI Allocation retrieval fault:", err);
-      alert("System communication gap compiling recommendations. Check server log outputs!");
+      alert("Error communicating with the AI Advisor. Make sure your server is running and your API key is configured!");
     } finally {
       setLoading(false);
     }
@@ -33,15 +33,15 @@ export default function AiAdvisor() {
   return (
     <div className="container mx-auto p-6 md:p-8 space-y-8 animate-fadeIn">
       {/* Page Title Banner */}
-      <div className="bg-gradient-to-r from-purple-800 to-indigo-900 text-white rounded-3xl shadow-xl p-6 md:p-8">
+      <div className="bg-gradient-to-r from-purple-700 to-indigo-800 text-white rounded-3xl shadow-xl p-6 md:p-8">
         <h1 className="text-3xl font-black tracking-tight mb-2">🤖 Smart AI Robo-Advisor</h1>
-        <p className="text-purple-100 font-medium text-sm">Orchestrate enterprise-grade machine learning models to review profile constraints and map custom asset allocation models</p>
+        <p className="text-purple-100 font-medium text-sm">Orchestrate machine learning to evaluate profile constraints and map customized asset allocation models</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        {/* Left Interactive Profiling Input Sheet Form */}
+        {/* Left Side: Interactive Questionnaire Form */}
         <form onSubmit={handleSubmit} className="lg:col-span-1 bg-white p-6 rounded-3xl shadow-md border border-gray-100 space-y-5">
-          <h3 className="text-lg font-bold text-gray-950 border-b pb-3 border-gray-100">📋 Investor Persona Constraints</h3>
+          <h3 className="text-lg font-bold text-gray-950 border-b pb-3 border-gray-100">📋 Investor Profile Constraints</h3>
           
           <div>
             <label className="block text-xs font-black uppercase text-gray-500 mb-2">Risk Appetite Profile</label>
@@ -52,18 +52,23 @@ export default function AiAdvisor() {
             >
               <option value="Conservative">🛡️ Conservative (Low Volatility risk)</option>
               <option value="Moderate">⚖️ Moderate (Balanced growth)</option>
-              <option value="Aggressive">⚡ Aggressive (High growth small-cap bias)</option>
+              <option value="Aggressive">⚡ Aggressive (High growth focus)</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-xs font-black uppercase text-gray-500 mb-2">Time Horizon (Years)</label>
+            <label className="block text-xs font-black uppercase text-gray-500 mb-2">Time Horizon: {profile.investmentHorizon} Years</label>
             <input 
-              type="number" min="1" max="40"
+              type="range" min="1" max="25" step="1"
               value={profile.investmentHorizon}
               onChange={(e) => setProfile({...profile, investmentHorizon: e.target.value})}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-semibold text-sm text-gray-800 focus:outline-none focus:border-purple-500"
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
             />
+            <div className="flex justify-between text-[10px] text-gray-400 font-bold mt-1">
+              <span>1 YR</span>
+              <span>12 YRS</span>
+              <span>25 YRS</span>
+            </div>
           </div>
 
           <div>
@@ -74,16 +79,16 @@ export default function AiAdvisor() {
               className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-semibold text-sm text-gray-800 focus:outline-none focus:border-purple-500"
             >
               <option value="Retirement security planning">🌅 Retirement Nest Egg Planning</option>
-              <option value="Long-term wealth accumulation">📈 Aggressive Multi-Asset Wealth Accumulation</option>
-              <option value="Tax saving (ELSS options optimization)">🛑 Tax Saving Shield Optimization</option>
+              <option value="Long-term wealth accumulation">📈 Multi-Asset Wealth Accumulation</option>
+              <option value="Tax saving options optimization">🛑 Tax Saving Optimization</option>
               <option value="Emergency liquid capital reserve creation">🌊 High Liquidity Emergency Fund Setup</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-xs font-black uppercase text-gray-500 mb-2">Target Monthly SIP Budget (₹)</label>
+            <label className="block text-xs font-black uppercase text-gray-500 mb-2">Target Monthly Budget (₹)</label>
             <input 
-              type="number" step="500" min="500"
+              type="number" step="500" min="500" max="100000"
               value={profile.monthlyBudget}
               onChange={(e) => setProfile({...profile, monthlyBudget: e.target.value})}
               className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-semibold text-sm text-gray-800 focus:outline-none focus:border-purple-500"
@@ -99,7 +104,7 @@ export default function AiAdvisor() {
           </button>
         </form>
 
-        {/* Right Output Area Canvas Dashboard Display */}
+        {/* Right Side: Output Results Area Canvas */}
         <div className="lg:col-span-2 space-y-6">
           {loading && (
             <div className="bg-white rounded-3xl p-12 text-center border shadow-sm space-y-4">

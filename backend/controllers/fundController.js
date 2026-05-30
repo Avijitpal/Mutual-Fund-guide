@@ -69,7 +69,7 @@ exports.seedFunds = async (req, res, next) => {
 // GET all funds (Temporary mock wrapper to test connectivity tomorrow)
 exports.getAllFunds = async (req, res) => {
   try {
-    const funds = await Fund.find({}).limit(10);
+    const funds = await Fund.find({}).limit(100);
     res.json({ success: true, count: funds.length, data: funds });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

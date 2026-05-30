@@ -32,6 +32,7 @@ exports.getAIRecommendation = async (req, res, next) => {
     `;
 
     // 3. Fire the request to Gemini 1.5 Pro or Gemini 2.5 Flash
+// 3. Fire the request to Gemini 2.5 Flash
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash", 
       contents: [
@@ -42,8 +43,27 @@ exports.getAIRecommendation = async (req, res, next) => {
       }
     });
 
-    const rawText = response.text;
-    const cleanJson = JSON.parse(rawText);
+    // 🛠️ Robust JSON Sanitation Block
+    let rawText = response.text || "";
+    let cleanJson;
+
+    try {
+      // If the response is already parsed into an object by the SDK, assign it directly
+      if (typeof rawText === 'object' && rawText !== null) {
+        cleanJson = rawText;
+      } else {
+        // Clean up any accidental markdown formatting fences if Gemini included them anyway
+        const sanitizedText = rawText
+          .replace(/```json/g, "")
+          .replace(/```/g, "")
+          .trim();
+          
+        cleanJson = JSON.parse(sanitizedText);
+      }
+    } catch (parseError) {
+      console.error("Failed parsing Gemini JSON string raw output:", rawText);
+      throw new Error("Mismatched response format received from AI processor endpoint.");
+    }
 
     // 4. Map the textual schema recommendations back to actual, rich MongoDB document references
     const populatedRecommendations = cleanJson.recommendations.map(rec => {

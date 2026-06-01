@@ -7,6 +7,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorMiddleware');
+const { initSipAutomationEngine } = require('./services/cronService');
+
 // Load configurations
 dotenv.config();
 
@@ -18,13 +20,12 @@ const app = express();
 // ==========================================
 // 🛡️ SECURITY MIDDLEWARE GATEWAYS
 // ==========================================
-app.use(helmet()); // Mount protective headers
-app.use(cors()); // Allow Cross-Origin requests
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
+app.use(helmet()); 
+app.use(cors()); 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
-// Strip out malicious keys containing system operators ($ or .)
-// Manually sanitize in-place to bypass "getter only" reassignment errors
+// Sanitize query objects to defend against NoSQL injection attacks
 app.use((req, res, next) => {
   if (req.body) mongoSanitize.sanitize(req.body);
   if (req.params) mongoSanitize.sanitize(req.params);
@@ -32,10 +33,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Defensive Rate Limiter: Prevent automated script floods or bruteforce credential attacks
+// Defensive Rate Limiter
 const rateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 Minute window frame
-  max: 100, // Caps execution limits to a maximum of 100 requests per window space
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
   message: 'Too many requests originating from this IP address. Please try again later.'
 });
 app.use('/api/', rateLimiter);
@@ -46,10 +47,14 @@ app.use('/api/', rateLimiter);
 app.use('/api/funds', require('./routes/fundRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use("/api/advisor", require("./routes/advisorRoutes"));
+app.use('/api/portfolio', require('./routes/portfolioRoutes'));
+app.use('/api/chat', require('./routes/chatRoutes'));
+// Fire up the background task worker threads
+initSipAutomationEngine(); 
+
 // ==========================================
 // 🛑 GLOBAL ERROR RUNTIME EXCEPTION INTERCEPTOR
 // ==========================================
-// MUST be mounted dead last after all your functional routes!
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

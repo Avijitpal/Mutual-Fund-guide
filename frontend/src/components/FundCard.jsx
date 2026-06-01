@@ -1,58 +1,61 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import InvestmentModal from './InvestmentModal'; // ◄── 1. Add Import
 
 export default function FundCard({ fund }) {
-  // Utility function to color-code metrics based on performance yield
-  const getReturnColor = (value) => {
-    if (value > 15) return 'text-emerald-600 font-bold'; // Premium performers
-    if (value > 0) return 'text-blue-600 font-semibold'; // Positive growth
-    return 'text-red-600 font-medium'; // Negative growth
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false); // ◄── 2. Add State Hook
 
-  // Safely extract the valid MongoDB Hex Id reference string
-  const fundId = fund._id || fund.id;
+  if (!fund) return null;
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 group">
-      <div className="flex justify-between items-start mb-3">
-        <h3 className="font-bold text-lg mb-2 text-gray-800 line-clamp-2 leading-snug group-hover:text-blue-700">
-          {fund.schemeName}
-        </h3>
-        <span className={`px-3 py-1 rounded-full text-xs font-bold ${getReturnColor(fund.returns?.oneYear)} bg-gray-100`}>
-          {fund.returns?.oneYear?.toFixed(1)}% (1Y)
-        </span>
-      </div>
-      
-      <p className="text-sm text-gray-500 mb-4 font-medium tracking-tight">{fund.fundHouse}</p>
-
-      <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-5 text-sm border-t border-b border-gray-100 py-4">
-        <div className="flex justify-between">
-          <span className="text-gray-600">Current NAV:</span>
-          <span className="font-semibold text-gray-900">₹{fund.nav?.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600">Expense Ratio:</span>
-          <span className="font-semibold text-gray-900">{fund.expenseRatio?.toFixed(2)}%</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600">Category:</span>
-          <span className="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-lg text-xs font-medium">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow flex flex-col justify-between h-full">
+      <div>
+        <div className="flex justify-between items-start gap-2 mb-3">
+          <span className="text-[10px] font-extrabold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md uppercase">
             {fund.category}
           </span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600">Risk Profile:</span>
-          <span className={`font-medium ${fund.riskLevel === 'Very High' ? 'text-red-700' : 'text-gray-900'}`}>
-            {fund.riskLevel}
+          <span className={`text-[10px] font-black px-2 py-0.5 rounded-md uppercase ${fund.riskLevel === 'High' || fund.riskLevel === 'Very High' ? 'bg-red-50 text-red-700' : 'bg-emerald-50 text-emerald-700'}`}>
+            🎯 {fund.riskLevel} Risk
           </span>
+        </div>
+        <h3 className="font-black text-gray-900 text-md tracking-tight leading-snug line-clamp-2 mb-1">{fund.schemeName}</h3>
+        <p className="text-xs font-bold text-gray-400 mb-4">{fund.fundHouse}</p>
+        
+        <div className="grid grid-cols-2 gap-4 border-t border-b py-3 border-gray-50 mb-4">
+          <div>
+            <span className="text-[10px] text-gray-400 font-black uppercase tracking-wider block">Current NAV</span>
+            <span className="font-mono font-bold text-sm text-gray-900">₹{fund.nav}</span>
+          </div>
+          <div>
+            <span className="text-[10px] text-gray-400 font-black uppercase tracking-wider block">Expense Ratio</span>
+            <span className="font-bold text-sm text-gray-800">{fund.expenseRatio}%</span>
+          </div>
         </div>
       </div>
 
-      <Link 
-        to={`/fund/${fundId}`}
-        className="block text-center bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-md"
-      >
-        View Complex Analytics     
-      </Link>
+      <div className="flex gap-2.5">
+        <Link 
+          to={`/fund/${fund._id}`} 
+          className="flex-1 bg-gray-50 text-gray-700 font-bold text-xs py-2.5 rounded-xl hover:bg-gray-100 border text-center transition-colors"
+        >
+          View Details
+        </Link>
+        
+        {/* 🛒 THE INVESTMENT MODAL TRIGGER BUTTON TRIGGER ROW */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="flex-1 bg-blue-600 text-white font-black text-xs py-2.5 rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+        >
+          Invest Now
+        </button>
+      </div>
+
+      {/* 🛠️ INJECT THE INVESTMENT MODAL BOUNDARY MARKER CARD EDGE */}
+      <InvestmentModal 
+        fund={fund} 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 }

@@ -18,14 +18,34 @@ connectDB();
 const app = express();
 
 // ==========================================
-// 🛡️ SECURITY MIDDLEWARE GATEWAYS
+// 🛡️ SECURITY MIDDLEWARE GATEWAYS (CORS & HEADERS)
 // ==========================================
 app.use(helmet()); 
-app.use(cors()); 
+
+// Explicitly whitelist trusted origins to allow secure cross-origin resource sharing
+const allowedOrigins = [
+  'http://localhost:5173',                 // Local React + Vite development workspace
+  'https://mutual-fund-guide-9ypw.onrender.com/'  // ◄── Double check this matches your live Vercel domain!
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow server-to-server requests or API clients like Postman (which send an undefined origin)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Blocked by CORS security gateway: Origin unauthorized.'), false);
+    }
+  },
+  credentials: true // Allows JWT authorization headers/cookies to securely pass across domains
+}));
+
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 
-// Sanitize query objects to defend against NoSQL injection attacks
+// Sanitize incoming body parameters to defend against deep NoSQL injection attacks
 app.use((req, res, next) => {
   if (req.body) mongoSanitize.sanitize(req.body);
   if (req.params) mongoSanitize.sanitize(req.params);
@@ -33,10 +53,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Defensive Rate Limiter
+// Defensive Rate Limiter: Guard infrastructure from automated brute-force attacks
 const rateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100, 
+  windowMs: 15 * 60 * 1000, // 15-minute operational evaluation window
+  max: 100,                 // Caps execution limits to a maximum of 100 requests per window space
   message: 'Too many requests originating from this IP address. Please try again later.'
 });
 app.use('/api/', rateLimiter);
@@ -46,15 +66,17 @@ app.use('/api/', rateLimiter);
 // ==========================================
 app.use('/api/funds', require('./routes/fundRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
-app.use("/api/advisor", require("./routes/advisorRoutes"));
+app.use('/api/advisor', require('./routes/advisorRoutes'));
 app.use('/api/portfolio', require('./routes/portfolioRoutes'));
 app.use('/api/chat', require('./routes/chatRoutes'));
-// Fire up the background task worker threads
+
+// Fire up the monthly automated SIP calculator recurring tasks
 initSipAutomationEngine(); 
 
 // ==========================================
 // 🛑 GLOBAL ERROR RUNTIME EXCEPTION INTERCEPTOR
 // ==========================================
+// MUST be mounted dead last after all functional endpoint declarations!
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

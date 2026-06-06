@@ -1,16 +1,52 @@
-# React + Vite
+<div align="center">
+  <h1>📊 OptimaFunds</h1>
+  <p><em>Your Intelligent Mutual Fund Companion</em></p>
+  
+  <!-- 🌐 PUT YOUR LIVE LINK HERE 🌐 -->
+  <h3>
+    <strong>🔗 <a href="#">[INSERT LIVE DEMO LINK HERE]</a></strong>
+  </h3>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to **OptimaFunds**, a full-stack mutual fund analysis and portfolio management platform. This application empowers users to discover, compare, and track mutual fund investments with precision, guided by AI-powered insights! 🚀
 
-Currently, two official plugins are available:
+## ✨ Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+*   **🔍 Explore Dashboard:** Browse top-performing mutual funds across various categories (Equity, Debt, Hybrid).
+*   **📈 Interactive Analytics:** View detailed historical NAV charts powered by real-time data and Recharts.
+*   **⚖️ Fund Comparison:** Compare multiple funds side-by-side to make data-driven investment choices.
+*   **💸 Fee Impact Analyzer:** Understand the long-term impact of expense ratios on your returns.
+*   **🧮 SIP Calculator:** Plan your financial goals with an intuitive Systematic Investment Plan calculator.
+*   **💼 Portfolio Tracker:** Securely log in to manage, track, and bookmark your personal investment watchlist.
+*   **🤖 AI Advisor & Chat:** Get instant answers to your financial queries and personalized investment advice.
+*   **🔐 Secure Authentication:** Robust JWT-based authentication system to keep your portfolio data safe.
 
-## React Compiler
+## 🛠️ Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**🎨 Frontend:** React 18, Vite, React Router DOM, Tailwind CSS, Recharts  
+**⚙️ Backend:** Node.js, Express.js, MongoDB (Mongoose), JWT Auth, mfapi.in Integration
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. Clone & Install Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### 2. Setup Backend
+```bash
+cd backend
+npm install
+# Set up your .env file with PORT, MONGO_URI, JWT_SECRET, and JWT_EXPIRE
+npm start
+```
+
+### 3. Seed the Database (Optional but recommended)
+Trigger the seed route `POST /api/funds/seed` (e.g., via Postman) to populate your database with real mutual fund data from the API concurrently.
+
+---
+<div align="center">
+  <i>Built with ❤️ for smarter investing.</i>
+</div>

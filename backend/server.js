@@ -25,7 +25,7 @@ app.use(helmet());
 // Explicitly whitelist trusted origins to allow secure cross-origin resource sharing
 const allowedOrigins = [
   'http://localhost:5173',                 // Local React + Vite development workspace
-  'https://mutual-fund-guide-9ypw.onrender.com/'  // ◄── Double check this matches your live Vercel domain!
+  'https://mutual-fund-guide.vercel.app'  // ◄── Double check this matches your live Vercel domain!
 ];
 
 app.use(cors({

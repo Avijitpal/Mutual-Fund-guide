@@ -1,32 +1,42 @@
 <div align="center">
-  <h1>📊 OptimaFunds</h1>
-  <p><em>Your Intelligent Mutual Fund Companion</em></p>
+  <h1 align="center">🚀 OptimaFunds 📈</h1>
+  <p align="center"><strong><em>Your Intelligent, AI-Powered Mutual Fund Companion</em></strong></p>
   
+  <p align="center">
+    <img src="https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node" />
+    <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+    <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
+  </p>
+
   <!-- 🌐 PUT YOUR LIVE LINK HERE 🌐 -->
   <h3>
-    <strong>🔗 <a href="#">[INSERT LIVE DEMO LINK HERE]</a></strong>
+    🌟 <strong><a href="#">[ CLICK HERE FOR LIVE DEMO ]</a></strong> 🌟
   </h3>
 </div>
 
-Welcome to **OptimaFunds**, a full-stack mutual fund analysis and portfolio management platform. This application empowers users to discover, compare, and track mutual fund investments with precision, guided by AI-powered insights! 🚀
+> **OptimaFunds** is a high-octane, full-stack mutual fund analysis and portfolio management platform. We empower everyday users to discover, compare, and track investments with pinpoint precision—guided by **cutting-edge AI insights!** 💸✨
 
-## ✨ Key Features
+## 🔥 Epic Features
 
-*   **🔍 Explore Dashboard:** Browse top-performing mutual funds across various categories (Equity, Debt, Hybrid).
-*   **📈 Interactive Analytics:** View detailed historical NAV charts powered by real-time data and Recharts.
-*   **⚖️ Fund Comparison:** Compare multiple funds side-by-side to make data-driven investment choices.
-*   **💸 Fee Impact Analyzer:** Understand the long-term impact of expense ratios on your returns.
-*   **🧮 SIP Calculator:** Plan your financial goals with an intuitive Systematic Investment Plan calculator.
-*   **💼 Portfolio Tracker:** Securely log in to manage, track, and bookmark your personal investment watchlist.
-*   **🤖 AI Advisor & Chat:** Get instant answers to your financial queries and personalized investment advice.
-*   **🔐 Secure Authentication:** Robust JWT-based authentication system to keep your portfolio data safe.
+*   ** Explore Dashboard:** Discover top-performing mutual funds across Equity, Debt, and Hybrid categories.
+*   **📈 Interactive Analytics:** Dive into stunning historical NAV charts powered by real-time data and `Recharts`.
+*   **⚖️ Fund Comparison:** Pit multiple funds against each other side-by-side to make the smartest data-driven choices.
+*   **💸 Fee Impact Analyzer:** Visualize the hidden long-term impact of expense ratios on your hard-earned returns.
+*   **🧮 SIP Calculator:** Architect your financial future with our intuitive Systematic Investment Plan calculator.
+*   **💼 Portfolio Tracker:** Securely manage, track, and bookmark your personal investment watchlist.
+*   **🤖 AI Advisor & Chat:** Instantly get personalized wealth management advice from our context-aware AI chatbot.
+*   **🔐 Bulletproof Security:** Rock-solid JWT-based authentication system and rate-limiting to keep your portfolio data locked down.
 
-## 🛠️ Technology Stack
+## ⚡ Tech Stack Highlights
 
-**🎨 Frontend:** React 18, Vite, React Router DOM, Tailwind CSS, Recharts  
-**⚙️ Backend:** Node.js, Express.js, MongoDB (Mongoose), JWT Auth, mfapi.in Integration
+*   **🎨 Frontend:** React 18, Vite, React Router DOM, Tailwind CSS, Recharts
+*   **⚙️ Backend:** Node.js, Express.js, MongoDB (Mongoose), JWT Auth, Redis Caching
+*   **🛡️ Security:** Helmet, Express Rate Limit, Mongo Sanitize
+*   **📡 Integrations:** Live financial data via `mfapi.in`
 
-## 🚀 Getting Started
+## 🚀 Quick Start Guide
 
 ### 1. Clone & Install Frontend
 ```bash

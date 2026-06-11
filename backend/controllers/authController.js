@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // Helper function to sign JSON Web Tokens using our encrypted environment secret
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE
+    expiresIn: process.env.JWT_EXPIRE| '30d'
   });
 };
 
